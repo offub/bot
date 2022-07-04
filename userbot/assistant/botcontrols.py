@@ -13,7 +13,7 @@ from ..helpers.utils import _format
 from ..sql_helper.bot_blacklists import check_is_black_list, get_all_bl_users
 from ..sql_helper.bot_starters import del_starter_from_db, get_all_starters
 from ..sql_helper.globals import addgvar, delgvar, gvarstatus
-from . import BOTLOG, BOTLOG_CHATID
+from userbot import BOTLOG, BOTLOG_CHATID
 from .botmanagers import (
     ban_user_from_bot,
     get_user_and_reason,

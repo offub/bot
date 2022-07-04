@@ -24,7 +24,7 @@ from ..sql_helper.bot_pms_sql import (
 )
 from ..sql_helper.bot_starters import add_starter_to_db, get_starter_details
 from ..sql_helper.globals import delgvar, gvarstatus
-from userbot import BOTLOG, BOTLOG_CHATID
+from . import BOTLOG, BOTLOG_CHATID
 from .botmanagers import ban_user_from_bot
 
 LOGS = logging.getLogger(__name__)
@@ -86,7 +86,6 @@ async def bot_start(event):
     my_last = user.last_name
     my_fullname = f"{my_first} {my_last}" if my_last else my_first
     my_username = f"@{user.username}" if user.username else my_mention
-    custompic = gvarstatus("BOT_START_PIC") or None
     if chat.id != Config.OWNER_ID:
         customstrmsg = gvarstatus("START_TEXT") or None
         if customstrmsg is not None:
@@ -107,13 +106,13 @@ async def bot_start(event):
             start_msg = f"Hey! 👤{mention},\
                         \nI am {my_mention}'s assistant bot.\
                         \nYou can contact to my master from here.\
-                        \n\nPowered by [Offuserbot](https://t.me/offub)"
+                        \n\nPowered by [offuserbot](https://t.me/offub)"
         buttons = [
             (
                 Button.url("Repo", "https://github.com/offub/bot"),
                 Button.url(
-                    "Deploy",
-                    "https://github.com/offub/pack",
+                    "source",
+                    "t.me/offub",
                 ),
             )
         ]
@@ -122,23 +121,13 @@ async def bot_start(event):
             \nHow can i help you ?"
         buttons = None
     try:
-        if custompic:
-            await event.client.send_file(
-                chat.id,
-                file=custompic,
-                caption=start_msg,
-                link_preview=False,
-                buttons=buttons,
-                reply_to=reply_to,
-            )
-        else:
-            await event.client.send_message(
-                chat.id,
-                start_msg,
-                link_preview=False,
-                buttons=buttons,
-                reply_to=reply_to,
-            )
+        await event.client.send_message(
+            chat.id,
+            start_msg,
+            link_preview=False,
+            buttons=buttons,
+            reply_to=reply_to,
+        )
     except Exception as e:
         if BOTLOG:
             await event.client.send_message(
